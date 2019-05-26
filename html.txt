@@ -1,0 +1,208 @@
+
+
+
+
+html:（HTML是由浏览器解释执行的）
+	开发工具：
+		hbuilder：可以快速的生成html标准文档结构，继承了大量的快捷方式。
+
+		./：为该位置开始
+		../：为返回上一目录
+		_top:返回上一页面（target="_top"回退页面）
+
+	head：配置浏览器的配置信息（并不在浏览器展示）
+		<title> 标题标签
+		<meta charset="utf-8"/>解析编码格式配置（打开方式）
+
+		{
+			<meta name="keywords" content="***,***,..."/>网页关键字
+
+			<meta name="description" content="***"/>网页描述
+
+			<meta name="author" content="***"/>网页作者
+
+			<meta http-equiv="refresh" content="5;url=http://www.baidu.com"/>网页自动跳转（跳转百度）
+
+			<link rel="shortcut icon" type="text/css" href="img/logo.ico">标题logo的设置
+
+		}提升网页在浏览器中的搜索概率
+
+
+	body:
+		标题标签：
+			h1-h6:一到六级标题标签，会将期中的数据加粗加黑，自带换行功能（块级标签）
+				标签属性是对标签的功能进一步补充
+			属性：
+				align： center（居中）   right（靠右）   left（靠左）  设置显示位置
+
+		水平线标签：
+			hr：会在页面中显示一条水平线
+			属性：	width="宽度"设置水平线的宽度
+					size="高度"设置水平线的高度
+					color="颜色"设置水平线的颜色
+
+		段落标签：
+			p:会将一段数据作为整体进行显示
+
+		换行符：
+			br:告诉浏览器在此位置换行
+
+		空格符：
+			&nbsp：（五个表示空格两个字）告诉浏览器在此处空格
+			pre:原样输出文本段落格式（不同的浏览器显示不同）
+			&lt;:浏览器显示<
+			&gt;:浏览器显示>
+
+		权重标签：（不会自动换行，可以嵌套使用）
+			b:会将内容加黑显示
+			i:会将内容斜体显示
+			u:会将内容增加下划线
+			del:增加中划线
+
+		列表标签：
+			ul:无序列表
+				li:标签中书写列表内容，一个li标签代表列表中的一行
+				特点：默认前面有一个小黑圆圈
+
+			ol:有序列表
+				li:列表内容
+				特点：给列表进行数字编码，格式从小到大
+				属性：
+					type：可以改变编码方式，默认阿拉伯排序
+
+			dl:自定义列表
+				dt:数据的标题
+				dd:数据的内容，一个dd一行内容
+
+		表格标签：
+			table:申明一个表格
+				tr:申明一行（行）。一般申明表格的高度
+				th:申明一个单元格，表头格，默认居中加黑显示（列）
+				td:申明单元格，普通格，默认居左显示（列）
+				单元格中的字体样式均在td标签中设置
+				单元格的合并：
+					首先制作完整的表格
+					rowspan="*"：合并*行，并删除掉其他要合并的单元格
+					colspan="*"：合并*列，并删除掉其他要合并的单元格
+				table>tr*4>td*4 +tab 快速生成表格
+				属性：
+					border:给表格增加边框
+					width:设置表格的宽度
+					height:设置表格的高度
+					注意：行高列宽
+					cellpadding="10px"：设置内容与边宽的距离
+					cellspacing="0px"：设置边宽的大小
+					style="border-botton:none;"表格不要下标签，还有top等等，在合并表格时使用
+				特点：默认根据数据的多少进行表格的大小显示
+
+		图片标签：
+			<img src="img/a.jpg" width="" heigh="" title="" alt=""/>
+			图片标签：
+			img:
+				src：图片路径
+					路径：一般本地资源图片资源使用相对路径即可
+					可以使用网络资源：图片资源的url地址
+						相对路径：从当前文件出发查找另一个文件所经过的路径
+						绝对路径：从跟盘符出发所查找的文件路径
+				width:设置图片的宽度，如果单独设置，在保证图片不失真的情况下放大缩小的。单位可以是px，也可以是%
+				title:图片标题
+				alt :图片未加载成功是用alt文字代替（图片加载失败的提示语）
+				注意：图片是不会自动换行的（行内元素）
+
+		超链接标签：<a href="链接地址" target="_blank">超链接显示的字</a>
+			a:
+				href:填写跳转页面的地址
+				target="_blank":使用新页面打开超链接
+
+		内嵌标签：
+			iframe:（<iframe src="" width="400px" height="300px" name="_myhtml"></iframe>
+			<a href="http://www.jd.com" target="_myhtml"></a>）
+				src:要显示的网页资源路径
+				可以在本地（相对路径），也可以是网络资源（URL）
+					注意：默认当前页面打开及加载的src指定的资源
+				width:设置显示区域的宽度
+				height:设置显示区域的高度
+				name:指定该区域的名称。如上，结合超链接中的target属性一同使用。
+			作用：在当前网页中加载其他网页的资源，达到不同网页资源之间不相互干扰，并能在同一网页中展现给用户的目的。
+
+		框架标签：frameset
+			使用该标签时一定不需要body标签
+			<frameset rows="10%,*,10%">
+				<frame src="http://www.baidu.com" />
+				<frameset cols="10%,*">
+					<frame src="http://www.so.com" />
+					<frame src="http://www.jd.com" />
+				</frameset>
+				<frame src="http://www.taobao.com" />
+			</frameset>
+
+		form标签：
+			作用：收集并提交用户数据给指定服务器
+			注意：form标签回收集其标签内部的数据
+			属性：
+				action：收集的数据提交的地址（url）
+				method：收集的数据的提交的方式
+					get:适合少量数据，不安全
+					post：适合大量数据,安全，隐式提交
+				注意：
+					表单数据的提交，表单项必须拥有name属性值，否则不会提交。
+					提交的表单项数据为键值对，键为name属性值，值为用户书写的数据。
+					form变动那数据的提交需要依赖于submit提交按钮
+
+		form表单域标签：
+			作用：给用户提供可以进行数据书写或者选择的标签。
+			使用：
+				文本框：
+					input：
+						type：
+							text：收集少量的文本数据，用户可见
+							password：收集用户密码数据
+							submit:提交按钮
+						name：数据提交的键，也会被js使用
+						value：默认值
+				单选框：
+					input：
+						type：
+							radio
+						name：name属性值相同的单选框只能选择一项数据
+						value：要提交的数据
+						checked：checked使用此属性单选默认为选择状态
+				多选框：
+					input：
+						type：
+							checkbox
+						name：一个多选框需要使用相同的那么属性值
+						value：要提交的数据
+						checked：checked使用此属性单选默认为选择状态
+				下拉框：
+					select：
+						name：数据提交的健名，必须申明
+						option：一个option标签标示一个下拉选项
+						value：要提交的数据
+						sected：selected属性指定的option为默认选择属性
+				文本域：
+					textarea：申明一个可以书写大量文字的文本区域
+					name：数据提交的键名，js和css也会使用
+					rows：申明文本域的行数
+					cols：申明文本域的列数
+				普通按钮：
+					input：
+						type：
+							button
+						values：
+				隐藏标签：
+					input：
+						type：
+							hidden
+						name：
+						value：
+					作用：随用户提交数据时一同提交，但又不让用户可见的一些信息
+
+
+
+		form表单标签的使用：
+			在点击数据提交时，form标签会将其内部所有form表单域标签中用户书写的数据按照methon指明的提交方式提交给action属性所指定的提交地址。
+			<form action="#" nethod="get">
+				用户名：<input type="text" name="uname"/><br />
+				密码：<input type="text" name="upwd"/><br />
+				<input type="submit" value="登录"/>

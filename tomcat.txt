@@ -1,0 +1,39 @@
+
+
+tomcat的使用：
+	下载地址：http://tomcat.apache.org/，下载安装包，解压直接可以使用
+	使用：点击lib\startup.bat既可以打开tomcat，浏览器搜索localhost:8080，出现tomcat主页面，搭建成功。
+	静态网站：
+		在apache-tomcat-7.0.92\webapps目录下创建一个目录（项目目录），该目录不能包含中文和空格
+		在项目目录下创建一个html文件
+	动态网站：
+		在apache-tomcat-7.0.92\webapps目录下创建一个目录（项目目录），该目录不能包含中文和空格
+		在项目目录项创建如下内容：
+			WEB-INF目录
+				在WEB-INF下创建web.xml文件
+			创建静态或者动态页面
+	配置外部应用
+		网页一般显示需要将项目文件放在"**\apache-tomcat-7.0.92\webapps"下面才能显示
+		有两种方法可以使得放在随意的文件在tomcat上展示出来
+			1、记事本打开"**\apache-tomcat-7.0.92\conf"文件下server.xml文件，在
+				<Host name="localhost"  appBase="webapps"
+	           		 unpackWARs="true" autoDeploy="true">下面加一句
+	           		 <Context path="随意输入需要打开的项目名" docBase="需要代开项目的绝对路径"/>
+	           		 eg：<Context path="hello" docBase="F:\helloweb"/>
+	           		 在浏览器上搜索http://localhost:8080/hello便可以打开helloweb文件下的网页文件
+			2、在"**\apache-tomcat-7.0.92\conff\Catalina\localhost"文件夹下面创建一个"*.xml"文件，记事本打开文件，存入"<Context docBase="需要代开项目的绝对路径"/>"保存并关闭
+					eg：创建文件为"hello.xml",保存内容为<Context docBase="F:\helloweb"/>
+					在浏览器上搜索http://localhost:8080/hello便可以打开helloweb文件下的网页文件
+	配置虚拟主机
+		先将端口名改为80
+		用记事本打开C:\Windows\System32\drivers\etc\hosts文件
+			在里面加一句“自己设定的域名 127.0.0.1”
+		打开server.xml文件
+			在  	<Host name="localhost"  appBase="webapps"
+           		unpackWARs="true" autoDeploy="true">
+      			</Host>前面再加一句
+      			<Host name="自己设定的域名"  appBase="项目绝对地址"
+           		unpackWARs="true" autoDeploy="true">
+      			</Host>
+      	重启tomcat
+      	浏览器输入“自己设定的域名\项目名”

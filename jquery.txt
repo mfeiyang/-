@@ -1,0 +1,132 @@
+
+
+
+
+
+
+jQuery:
+	1.什么是jquery
+		jquery权证JavaScript query是js的一个框架。本质上依然是js
+	2.js的特点
+		支持各种主流的浏览器
+		使用特别简单
+		拥有便捷的插件拓展机制和丰富的插件
+	3.使用jQuery
+		引入jquery文件
+			<script src="js/jquery-1.9.1.js" type="text/javascript" charset="utf-8" ></script>
+
+			jQuery的选择器	
+				// id选择器
+				function testId(){
+					// jquery---id
+					var inp=$("#uname");
+					alert(inp.val());
+				}
+				// 标签选择器
+				function testEle(){
+					var inps=$("input");
+					alert(inps.length);
+				}
+				// 类选择器
+				function testClass(){
+					var inps=$(".common");
+					alert(inps.length);
+				}
+				// 组合选择器
+				function testAll(){
+					var eles=$("h3,input");
+					alert(eles.length);
+				}
+				// 子选择器
+				function testChild(){
+					var inps=$("div>input");
+					alert(inps.length);
+				}
+				注意：
+					jQuery中选择器获得的是存储了HTML元素对象的数组
+					jQuery获取的元素对象不能够直接使用js的内容，按照数组的取出方式讲对象取出后可以使用js的内容。
+			jQuery操作元素的属性
+				获取：
+					对象名.attr("属性名")   //返回当前属性值，但是该方法不能获取value的实时数据
+					对象名.val()   //返回当前value的实时数据
+				修改：
+					对象名.attr("属性名","属性值");
+			jQuery操作元素的样式和内容
+				jQuery操作元素内容
+					获取：
+						对象名.html(); //返回当前对象的所有内容，包括HTML标签
+						对象名.text(); //返回对象的文本内容，不包活HTML标签
+					修改或添加：
+						对象名.html("新内容"); //新的内容会将原有内容全部覆盖，包括HTML标签。HTML标签会被解析执行
+						对象名.text("新内容"); //新的内容会将原有所有内容覆盖，包括HTML标签。HTML标签不会被解析
+				jQuery操作元素样式
+					使用css()
+						对象名.css("属性名") //返回当前属性的样式值
+						对象名.css("属性名","属性值") //增加，修改元素的样式
+						对象名.css({"样式名"："样式值"，"样式名"："样式值",...}) //使用json传参，提升代码书写效率
+					使用addClass()
+						对象名.addClass("类选择器名") //追加一个类样式
+						对象名.removeClass("类选择器名") //删除一个指定的类样式
+			jQuery操作元素的文档结构
+				获取元素对象
+					1.内部插入
+						append("内容")				将指定的内容追加都对象内部
+						appendTo(元素对象或选择器)	将指定的元素对象追加到指定的对象内部
+						prepend("内容")				将指定的内容追加都对象内部的前面
+						prependTo(元素对象或选择器)	将指定的元素对象追加到指定的对象内部
+					2.外部插入
+						after("内容")				在每个匹配的元素之后插入内容
+						before("内容")				在每个匹配的元素之前插入内容
+						insertAfter(元素对象或选择器)	把所有匹配的元素插入到另一个、指定的元素元素集合的后面
+						insertBefore(元素对象或选择器)把所有匹配的元素插入到另一个、指定的元素元素集合的前面
+			jQuery动态操作事件
+				元素对象.bind("事件名",fn) //动态的给指定的元素对象追加指定的事件及其监听的函数
+					注意：
+						js是一次添加，多次添加将会覆盖
+						jQuery是追加，可以多次添加，可以给一个事件添加不同的监听函数
+				元素对象.unbind("事件名") //移去指定的元素对象的指定事件
+					注意:
+						js方式添加的事件不能使用该方法移出
+				元素对象.one("事件名",fn) //给指定的元素添加一次性事件，事件被触发执行一次即失效
+					注意：
+						可以给事件添加多个一次性事件，unbind()可以用来解绑
+				页面载入事件
+					$(document).ready(fn);  页面载入成功后会调用传入的函数对象
+						注意:
+							此方式可以给页面载入动态的增加多个函数对象，不会被覆盖
+			案列
+	闭包演变过程：
+		1.js的全局变量区只有一个，这样就会造成同名变量的值会被覆盖
+			function test(){}
+			调用：test();
+		2.使用对象分装，将代码分装到对象中，但是对象如果被覆盖，则会全部失效
+			var a={};
+			a.test=function(){}
+			调用：a.test();
+		3.使用工厂模式，将代码进行分装，但是并没有解决问题
+			function geta(){
+				var a={};
+				a.test=function(){}
+				return a;
+			}
+			调用：geta().test();
+		4.将分装的函数名去掉，避免覆盖，但是函数没办法调用
+			function (){
+				var a={};
+				a.test=function(){}
+				return a;
+			}
+		5.匿名自调用，可以在页面加载的时候调用一次，但是不能重复调用，并且无法获取数据
+			(function (){
+				var a={};
+				a.test=function(){}
+				return a;
+			})()
+		6.使用闭包，将数据一次性挂载到window对象下
+			(function (obj){
+				obj.test=function(){}
+			})(window)
+			调用：test();或者window.test();
+	闭包原理：
+		使用更大作用域的变量来纪录小作用域变量的值
+

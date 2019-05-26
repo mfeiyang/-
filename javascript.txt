@@ -1,0 +1,477 @@
+
+
+
+
+
+js:
+	申明方式：
+		1.在head标签中使用script标签进行js代码的申明
+		<script type="text/javascript"> </script>
+			作用：js代码智慧作用于当前界面
+		2.在head标签中使用script标签引入外部申明好的js文件
+		<script src="js文件的相对路径" type="text/javascript" charset="utf-8" ></script>
+			作用：引入外部申明好的js文件
+			特点：实现js文件的重复使用，避免代码的冗余
+		注意：因为js在HTML文档中是一门单独的语言，所以可以申明在文档中的任意位置，一般申明在head中
+	js的变量学习：
+		所有变量的申明只有 var 关键字
+		alert  输出
+		注意：
+			js的变量名严格区分大小写
+			js中的字符串可以使用单引号也可以使用单引号
+			js中可以申明同名变量，后变量会将前变量覆盖
+		js中的数据类型：
+			数据类型判断关键字：typeof
+			数据类型：
+				number：所有的数据类型均为number
+				string：字符和字符串均为字符串类型
+				boolean：
+				object：对象类型
+				null：空对象赋值，主要是与undefined区分（nll属于object的数据类型）
+				Undefined：变量申明不赋值的情况下默认为undefined
+				注意：在js代码中，尽可能的给申明变量赋初始值，因为typeof会将不存在的数据类型判断为undefined类型的数据
+		js的运算符：
+			算数运算符：
+				加减乘除取余（“+”，“-”，“*”，“/”，“%”）
+				在字符串中“+”符合好代表的是字符串的连接符，并不会参与运算
+				在算数运算中如果运算符两边的数据类型不是number的话，会使用Number（）强制转化后再进行运算（这里是指“-”，“*”，“/”，“%”运算符。“+”运算符并不会这样运算，只会进行字符串的连接）
+			逻辑运算符：
+				与java使用一样
+				“！”，“&”，“|”，“||”，“&&”
+			关系运算符：返回值为true或者false
+				！=：，>=:,<=:  与java使用一样
+			自增运算符：
+				++，--，+=，-=  与java使用一样
+			特殊关系运算符：返回值为true或者false
+				等值运算符：
+					==：
+						先判断类型，类型一致则直接比较，类型不一致，则先使用Number（）强制转化以后在进行比较
+						拓展：null==undefined  返回值是true
+				等同运算符：
+					===：
+						先判断类型，类型一致则再比较内容，内容也一致则返回true，内容不一致则返回false；类型不一致直接返回false。
+						拓展：null===undefined  返回值是false。因为null为obejct类型的
+	js逻辑结构和循环结构的学习：
+		if结构：
+			单分支结构：
+				if（判断条件）{执行体}
+			多分支结构：
+				if（判断条件）{执行体} else{执行体}
+		switch选择结构：
+			注意：判断的变量可以是number类型，也可以是string类型
+			因为比较是按“===”进行判断的
+		循环结构： 
+			for（变量；条件；迭代条件）{}
+			while（循环条件）{}
+			do{}while（循环条件）
+		九九乘法表演示：
+			for(var i=1;i<=9;i++){
+				for(var j=1;j<=i;j++){
+					document.write(i+"*"+j+"="+i*j+"&nbsp;&nbsp;&nbsp;&nbsp;");
+				}
+				document.write("<br />");
+			}
+	js的数组学习：
+		1.数组的申明：
+			var arr1=new Array(); 申明一个空数组
+			var arr2=new Array(length);申明一个带长度的数组
+			var arr3=[1,2,3,4,5]; 申明赋值的数组（最常用）
+			注意：js中的数组申明不用指定长度，js的数组长度是不固定的，会随元素的数量改变数组的长度
+		2.数组的赋值和取值：
+			数组可以存储任意类型的数据
+			脚标可以是任意正整数或者是0
+			js不存在数组溢出之说，因为js的数组长度是不固定的
+			数组的取出与Java一样。如果脚标不存在返回undefined
+		3.数组的length属性：
+			作用：
+				数组名.length  返回当前数组的长度
+				数组名.length=新数值  动态的改变数组的长度
+				注意：
+					如果length>原有长度，则用"."来填充
+					如果length<原有长度，则把数组的后面删除掉
+		4.数组的遍历：
+			for(var i=0;i<arr.length;i++){ 
+				alert(arr[i]);
+			}普通遍历
+			for(var i in arr){ 
+				alert(i);
+			}专有遍历
+	js的函数
+		作用：功能代码块的封装，减少代码的冗余
+		1.函数的申明
+			方式一：
+				function 函数名（形参1，形参2，...）{执行体}
+			方法二：
+				此声明表明函数也属于对象
+				var 变量名=new Function("形参1","形参2",....,"函数执行体")；
+			方式三：
+				var 变量名=function(形参1,形参2,....){函数执行体}
+		2.函数的参数
+			js中的函数在调用时，形参可以不赋值，不会报错
+			js中的函数在调用时，形参赋值可以不全赋值，不会报错，但是实参会一次进行赋值
+		3.函数的返回值
+			js中如果函数有返回值直接返回，如果没有返回值则会返回undefined。
+		注意：
+			js代码的声明区域和执行区域是一起的，都是在js代码的代码域中。
+		4.函数的执行符：
+			在js中，函数的执行符是（），没有小括号则函数名其实就是一个变量，加上小括号则函数将会被执行
+		5.函数作为实参传递：
+			在js中函数是可以作为实参进行传递的
+			开发中经常用的函数传递：
+				function text(fn){//text函数在被调用的时候，实参必须是一个函数
+					fn();
+				}
+				text(function(){
+					alert(...);
+				})
+	js中类的学习：
+		1.类的申明：
+			function 类名(形参1，形参2){
+				this.属性名1 = 形参1;
+				this.属性名2 = 形参2;
+				...
+				this.属性名=fn;
+			}
+		2.类的使用：
+			var 对象名 = new 类名(实参1，实参2，...)；
+			注意：
+				js中类的内容只是对象的公共部分，每个对象还可以自定义的扩充；
+		3.类的“继承”：
+			prototype:可视为静态定义
+				使用方法：
+					Person.prototype.test =function(){}；
+					p1.test===p2.test  //结果是ture
+				prototype关键字实现了不同对象之间的数据共享，不隶属与对象，隶属于类
+				作用：
+					实现某个类的所有子对象的方法区对象的共享，节省内存
+	自定义对象：
+		对象的作用：用来存储整体数据
+		原因：我们无法预先知道对象的属性，因此我们创建自定义对象来临时存储数据，保证数据的完整性。
+		使用：
+			1.创建自定义对象
+				1.var 对象名 = new Obeject();
+
+				2.var 对象名 = {};
+			2.一般用于存储数据，不会再自定义对象中存储函数对象
+	js的事件机制
+		解释：当我们的行为动作满足了一定的条件后，会触发某类事务的执行
+		作用：主要是结合js的函数来使用
+		内容：
+			1.单击事件
+				单机：onclick	鼠标单击被触发
+				双击：ondbclick	鼠标双击被触发
+			2.鼠标事件
+				鼠标悬停：Onmouseover	当鼠标悬停在某个HTML元素上的时触发
+				鼠标移动：Onmousemove	当鼠标在某个HTML元素上移动时触发
+				鼠标移出：Onmouseout 	当鼠标在某个HTML元素上移出是触发
+			3.键盘事件
+				键盘弹起事件:Onkeyup		当键盘在某个HTML元素上弹起时触发
+				键盘下压事件:Onkeydown	当键盘在某个HTML元素上下压时触发
+			4.焦点事件
+				获取焦点：Onfocus	当某个HTML元素获取焦点是触发
+				失去焦点：Onblur		当某个HTML元素失去焦点是触发
+			5.页面加载事件
+				页面加载：Onload		当页面加载成功后触发
+		注意：
+			js中添加事件的第一种方式：
+				在HTML上直接使用事件属性进行添加，属性值为所监听执行的函数
+			js中的事件只有在挡墙的HTML元素上有效
+			一个HTML元素可以添加多个不同事件
+			一个事件可以监听触发多个函数的执行，但是不用的函数之间要用分号间隔
+		使用：
+			1.给合理的HTML标签添加合适的事件
+				onchange	select下拉框
+				onload		body标签
+				单双击		用于会进行点击事件的HTML元素
+				鼠标事件		用于会进行鼠标移动操作的HTML元素
+				键盘事件		用于会进行键盘操作的HTML元素
+			2.给HTML元素添加多个事件时，注意事件之间的冲突
+				eg：单击和双击
+				当事务的触发条件包含相同部分是，会产生事件之间的冲突
+			3.事务的阻断
+				当事务所监听的函数的将返回值返回给事务时：
+					false：则会阻断当前事务所在HTML标签的功能
+					true：则继续执行当前事务所在的HTML标签功能
+			4.超链接调用js函数
+				<a href="javascript:函数名()">调用js函数</a>
+	BOM浏览器对象模型：是规范浏览器对js语言的支持
+	BOM的具体实现是window对象
+
+	window对象的学习与使用：
+		1.window对象不用new，之间进行使用即可，类似Math的使用方法，window关键字可以省略不写
+		2.框体方法：
+			警告框：window.alert()		提示一个警告信息。无返回值
+			确认框：window.confirm()	提示用户选择一项操作。有返回值（确认/取消）
+			提示框：window.prompt()		提示某个信息的录入或者收集。点击确定，返回当前录入的数据，默认返回空字符串；点击取消，返回null
+		3.定时和间隔执行方法
+			window.setTimeout(funcyion(){},time);
+				参数1：函数对象
+				参数2：事件，单位毫秒
+				作用：指定时间后执行指定函数
+				返回值：返回当前定时器的id
+			window.setInterval(funcyion(){},time);
+				参数1：函数对象
+				参数2：事件，单位毫秒
+				作用：每间隔指定时间执行指定函数
+				返回值：返回当前间隔期的id
+			window.clearTimeout(id);
+				参数：定时器的id
+				作用：用来停止指定的定时器
+			window.clearInterval(id);
+				参数：间隔期的id
+				作用：用来停止指定的间隔器
+		4.子窗口方法
+			window.open('子页面的资源（相对路径）','打开方式','配置');
+				实例：window.open('son.html','newwindown','height=400,weidth=600,top=100px,left=320px,');
+			windown.close();
+			注意：关闭子页面的方法只能用于关闭使用open打开的子页面
+		5.子页面调用父页面的函数
+			window.opener.父页面的函数
+		6.js的window对象的常用属性
+			地址栏属性
+				window.location.href="新的资源路径";
+				window.location.reload();	重新加载页面资源（刷新）
+			历史记录属性
+				window.history.forward();	页面资源前进
+				window.history.back();	页面资源你后退
+				window.history.go(index);	页面跳转到指定页面的纪录。当index=0时为刷新页面
+			屏幕属性
+				window.screen.width		获取浏览器宽度属性
+				window.screen.height	获取浏览器高度属性
+			浏览器配置属性
+				window.navigator.userAgent	获取浏览器配置属性
+			主体面板属性(document)
+	document对象
+		1.document对象的概念
+			浏览器对外提供的支持js的用来操作HTML文档的一个对象，此对象封存的HTML文档的所有信息
+		2.使用document:使用先于创建，操作的是内部封存好的信息
+			获取HTML元素的对象
+				直接获取方式
+					通过id
+					通过name属性
+					通过标签名
+					通过class属性值
+				间接获取方式
+					父子关系
+					子父关系
+					兄弟关系
+				注意：空格代表
+			操作HTML元素对象的属性
+				获取元素属性
+				操作元素属性
+					获取：
+						元素对象名.属性名	返回当前的属性值
+						元素对象名.getAttribute("属性名");	返回自定义属性值
+					修改：
+						元素对象名.属性名=属性值
+						元素对象名.setAttribute("属性名","属性值");	修改属性值里的属性值
+						注意：
+							尽量不要修改name值和id值
+							使用自定义方式获取固有属性值内容时，除了value的值获取的是默认值，不能获取到实时的用户数据之外，其他的均无异
+			操作HTML元素对象的内容与样式
+				获取元素对象
+					获取
+						元素对象名.innerHTML //返回当前元素对象的所有内容，包括HTML标签
+						元素对象名.innerText //返回当前元素对象的文本内容，不包活HTML标签
+					修改
+						元素对象名.innerHTML="新的值" //回将原有的所有内容覆盖，包括HTML标签
+						元素对象名.innerText="新的值" //会将原有的所有内容覆盖，而且会将HTML标签以文本方式显示
+				操作元素样式
+					获取元素对象
+						通过style属性	
+							元素对象名.style.样式名="样式值" //添加或者修改
+							元素对象名.style.样式名="" //删除样式
+							注意：
+								以上操作，操作的是HTML的style属性申明中的样式，而不是其他css代码域中的样式
+						通过className属性
+							元素对象名.className="新的值"  //添加或者修改选择器样式
+							元素对象名.className=""  //删除选择器样式
+			操作HTML的文档结构
+				增加节点
+				删除节点
+				第一种方式：使用innerHTML   //该方法不适用于table的操作
+					div.innerHTML=div.innerHTML+"内容"  //增加节点
+					div.innerHTMl=""  //删除所有节点
+					父节点.removeChild(子节点)  //删除指点节点
+				第二种方式：
+			document操作form表单元素
+				获取form表单对象：
+					使用id：fm=document.getElementById("fm");
+					使用name属性：var frm=document.frm;
+				获取form下的所有表单元素集合
+					fm.elements
+				form表单提交的常用方法
+					表单对象.submit();   //js中的提交
+					表单对象.reset();   //js中的重置属性
+				form表单的属性操作：
+					表单对象名.action="新的值"; //动态的改变数据的提交路径
+					表单对象名.method="新的值"; //动态的改变提交方式
+				js表单元素的通用属性
+					只读属性：readonly="reaaonly" //不可以进行更改，但是数据可以提交
+					关闭属性：disabled="disabled" //不可以进行任何操作，数据也不会提交
+				js操作多选框，单选框
+					被选中状态下在js中checked属性值为true，未被选中状态为false
+				js操作下拉框
+					被选择的option对象在js中selected属性值为true，未被选中为false
+					与按钮的onclick="函数名";运行js函数不同，下拉框调用js函数使用onchange="函数名();
+			form表单校验
+				// 验证用户名
+				function checkUname(){
+					//在对应的标签中添加onblur="checkUname()属性
+					// 获去用户的用户名信息
+					var code=document.getElementById("code").value;
+					// 创建验证规则
+					var reg=/^[\u4e00-\u9fa5]{2,4}$/
+					// 获取span对象
+					var span=document.getElementById("code_display");
+					// 开始校验
+					if(code==""||code==null){
+						span.innerHTML="验证码不能为空";
+						span.style.color="red";
+						return false;
+					}
+					else if(reg.test(code)){
+						span.innerHTML="验证码正确";
+						span.style.color="green";
+						return true;
+					}
+					else{
+						span.innerHTML="验证码不正确";
+						span.style.color="red";
+						return false;
+					}
+					// 输出验证结果
+				}
+				// 验证密码
+				function checkPwd(){
+					//在对应的标签中添加onblur="checkPwd()属性
+					// 获取用户密码
+					var pwd=document.getElementById("pwd").value;
+					// 创建验证信息
+					var reg=/^[a-z]\w{5,7}$/;
+					// 获取span对象
+					var span=document.getElementById("pwdSpan");
+					// 开始验证
+					if(pwd==""||pwd==null){
+						// 输出验证效果
+						span.innerHTML="*密码不能为空";
+						span.style.color="red";
+						return false;
+					}
+					else if(reg.test(pwd)){
+						// 输出验证效果
+						span.innerHTML="*密码格式正确";
+						span.style.color="green";
+						return true;
+					}
+					else{
+						// 输出验证效果
+						span.innerHTML="*密码格式不正确";
+						span.style.color="red";
+						return false;
+					}
+					checkPwd2();
+				}
+				//校验确认密码
+				function checkPwd2(){
+					//在对应的标签中添加onblur="checkPwd2()属性
+					// 获取第一次密码
+					var pwd=document.getElementById("pwd").value;
+					// 获取确认密码
+					var pwd2=document.getElementById("pwd2").value;
+					// 比较再次密码是否相同
+					if(pwd2==""||pwd2==null){
+						span.innerHTML="确认密码不能为空";
+						span.style.color="red";
+						return false;
+					}else if(pwd==pwd2){
+						span.innerHTML="密码确认正确";
+						span.style.color="green";
+						return true;
+					}else{
+						span.innerHTML="确认密码不正确";
+						span.style.color="red";
+						return false;
+					}
+				}
+				//校验手机号
+				function checkPhone(){
+					//在对应的标签中添加onblur="checkPhone()属性
+					return checkFile("phone",/^1[3,4,5,7,8]\d{9}$/);
+				}
+				// 验证邮箱
+				function checkMain(){
+					//在对应的标签中添加onblur="checkMain()属性
+					return checkFile("main",/^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/);
+				}
+				// 校验籍贯（下拉框）
+				function checkAddress(){
+					//在对应的标签中添加onchange="checkAddress()"属性
+					var sel=document.getElementById("address").value;
+					var span=document.getElementById("addressSpan");
+					if(sel!=0){
+						span.innerHTML="籍贯选择成功";
+						span.style.color="green";
+						return true;
+					}else{
+						span.innerHTML="籍贯不能为空";
+						span.style.color="red";
+						return false;
+					}
+				}
+				// 校验多选
+				function checkFav(){
+					//在对应的标签中的每个选项按钮上均要添加onclick="checkFav()"属性
+					var favs=document.getElementsByName("fav");
+					var span=document.getElementById("favSpan");
+					for(var i=0;i<favs.length;i++){
+						if(favs[i].checked){
+							span.innerHTML="选择成功";
+							span.style.color="green";
+							return true;
+						}
+					}
+					span.innerHTML="多选不可为空"；
+					span.style.color="red";
+					return false;
+				}
+				// 校验必选框（如：公司协议）
+				function checkAgree(){
+					document.getElementById("sub").disabled=!document.getElementById("agree").checked;
+				}
+				//提交阻断
+				function checkSub(){
+					//在form表单上加上标签  onsubmit="return checkSub()"
+					return checkUname()&&checkSub()&&checkPwd2()&&checkPwd()&&checkPhone()&&checkAddress()&&checkMain()&&checkFav();
+				}
+		/*-----------------------------------------------------------*/
+				// 分装验证：相同的保留，不同的传参
+				function checkFile(id,reg){
+					//在对应的标签中添加onblur="checkFile()属性
+					// 获取用户数据
+					var inp=document.getElementById(id);
+					var va=inp.value;
+					var alt=inp.alt;
+					// 创建校验规则
+					// 获取span对象
+					var span=document.getElementById(id+"Span");
+					// 开始校验
+					if(va==""||va==null){
+						// 输出校验结果
+						span.innerHTML="*"+alt+"不能为空";
+						span.style.color="red";
+						return false;
+					}
+					else if(reg.test(va)){
+						// 输出校验结果
+						span.innerHTML="*"+alt+"格式正确";
+						span.style.color="green";
+						return true;
+					}
+					else{
+						// 输出校验结果
+						span.innerHTML="*"+alt+"格式不正确";
+						span.style.color="red";
+						return false;
+					}
+				}

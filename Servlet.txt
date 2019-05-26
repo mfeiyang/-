@@ -1,0 +1,218 @@
+
+
+
+Servlet:
+	
+	Servlet是javaweb的三大组件之一，它属于动态资源
+	作用：处理请求（每个Servlet都是唯一的，它们处理的请求都是不同的）
+		接收请求数据
+		处理请求
+		完成响应
+	Servlet中的方法大多数不由我们来调用，而是由服务器（tomcat）来调用；并且Servlet的对象也不由我们来创建，有tomcat来创建。
+	如何让浏览器访问servlet
+		1.给Servlet指定一个Servlet路径（让Servlet与一个路径绑定在一起）
+		2.浏览器访问Servlet路径
+			给Servlet配置路径需要在web.xml中对Servlet进行配置
+			web.xml
+			<servlet>
+				<servlet-name>xxx</servlet-name>
+				<servlet-class>xx.xx.xx(类名的文件路径)</servlet-class>
+			</servlet>
+
+			<servlet-mapping>
+				<servlet-name>xxx<servlet-name>
+				<url-pattern>/AServlet</url-pttern>
+			<servlet-mapping>
+			在浏览器上输入localhost:8080/servlet/AServlet来访问xxx文件，而xxx文件指定的是xx.xx.xx(类名的文件路径)
+	Servlet生命周期方法
+		void init()：创建之后立即初始化参数的方法，只会执行一次，它并不是Servlet的创建方法
+		void service(ServletRequest request, ServletResponse response)：每次处理请求都会被调用
+		void destroy()：销毁之前立即释放资源的方法，只会执行一次，它并不是Servlet的销毁方法
+	特性：
+		单例：一个类只有一个对象，当然可以存在多个Servlet类
+		线程是不安全的，所以他的效率是高的
+	Servlet类由我们来编写，但是对象由服务器来创建，并且由服务器来调用相应的方法
+
+	ServletConfig：（此中的对象均为接口，由java提供，而实现类由tomcat提供）
+		一个ServletConfig对象，对应一段web.xml中的Servlet的配置信息
+		String getServletName()：返回该servlet实例的名称（获得的是<servlet-name>中的内容）
+		不存在获取<servlet-class>中的内容的方法，因为这是不安全的。
+		ServletContext getServletContext()：获取Servlet上下文对象
+		String getInitParameter(String name)：通过名称获取指定的初始化参数的值
+		Enumeration getInitParameterNames()：获取所有初始化参数的名称（返回值为迭代器）
+
+	GenericServlet：已经完美分装了Servlet的五个主要类+一些其他类，为我们只需要继承该类即可。
+
+	HttpServlet：
+		void service(ServletRequest,ServletResponse)  -->servlet的生命周期函数
+			将两个参数强制转化为Http协议相关的类型
+			调用类的service(HttpServletRequest,HttpServletResponse)
+		void service(HttpServletRequest,HttpServletResponse)  -->参数已经是Http协议相关的，使用起来就更加方便。
+			它会通过request得到当前请求的请求方式，例如：GET或者POST
+			根据请求方式再调用doGet()或者doPost()
+
+		void doGet(){...}   -->需重写
+		void doPost(){...}  -->需重写
+
+	不要在servlet中创建成员，创建局部变量即可
+	可以创建无状态成员
+	可以创建只读的有状态的成员
+
+	在<servlet>中加上<load-on-startup>非负整数</load-on-startup>  (非负整数表示启动顺序，小数为优) 则servlet将在服务器启动后自动创建，并不再是第一次被访问时创建了。
+
+	域对象：用来在多个Servlet中传递数据
+		域对象必须要有存数据的功能（域对象内部有一个Map用来存储数据）
+		域对象必须要有取数据的功能
+		JavaWeb的四大域对象：
+			PageContext()
+			ServletRequest()
+			HttpSession()
+			ServletContext()
+
+
+	ServletContext()：
+		一个项目只有一个ServletContext对象！
+		我们可以在N多个Servlet中来获取这个唯一的对象，使用它可以给多个Servlet传递数据！
+		这个对象在服务器启动时创建，在服务器关闭时才会销毁。
+
+		获取ServletContext：
+			ServletConfig#getServletContext()
+			GenericServlet#getServletContext()
+			HttpSession#getServletContext()
+			ServletContextEvent#getServletContext()
+			......
+		操作数据的方法：
+			void setAttribute(String name,Object value)：用来存储一个对象（存储一个域属性）
+			Object getAttribute(String name)：用来获取ServletContext中的数据
+			void removeAttribute(String name)：用来移出ServletContext中的域属性
+			Enumeration getAttributeName()：获取所有域属性的名称
+
+		获取应用初始化参数
+			Servlet也可以获取参数，但它是局部的，即一个Servlet只能获取自己的初始化参数，不能获取别人的
+			ServletContext可以配置公共的初始化参数，为所有的Servlet而用！
+				<context-param>
+					<param-name>context-name</param-name>
+					<param-value>context-value</param-value>
+				</context-param>
+
+		获取资源的相关方法
+			getRealPath("/index.jsp")   它所得到的路径是带有盘符的
+			getResourceAsStream("/index.jsp")   获取资源对象后，再创建输入流对象
+			getResourcePaths("/WEB-INF")   获取当前路径下所有资源的路径
+
+		Servlet访问量的统计
+			创建一个int类型的变量，然后保存到ServletContext的域中，这样可以保存所有的Servlet都可以访问到
+			1、最初时，ServletContext中没有保存访问量相关的值
+			2、当本站被第一次访问时，创建一个变量，设置其值为1，保存到ServletContext中
+			3、当以后访问时，就可以从ServletContext中获取这个变量，然后在其基础上+1
+
+			获取ServletContext对象，查看是否存在名为count的属性，如果没有，说明是第一次访问；如果有，说明不是第一次访问
+				第一次访问：调用ServletContext的setAttribute传递一个属性，名为count，值为1
+				第N次访问：调用ServletContext的getAttribute方法获取原来的访问量count，给访问量加1，在调用ServletContext的setAttribute方法完后设置
+
+		获取类路径下资源
+			获取类路径资源，类路径对一个JavaWeb项目而言，就是/WEB-INF/classes和/WEB-INF/lib每个jar包
+
+
+
+	response：
+		状态码：
+			200：成功
+			302：重定向（需设置Location头(新地址)）
+			404：客户端错误（访问资源不存在）
+			500：服务端错误
+		响应头：
+			头就是一个键值对，可以存在一个头一个值，也可以存在一个头多个值
+			setHeader(String name,String value)：适用于设置单值的响应头
+			addHeader(String name,String value)：适用于设置多值的响应头
+			setIntHeader(String name,int value)：适用于设置单值的int类型的响应头
+			addIntHeader(String name,int value)：适用于设置多值的int类型的响应头
+			setDateHeader(String name,long value)：适用于设置单值的毫秒类型的响应头
+			addDateHeader(String name,long value)：适用于设置多值的毫秒类型的响应头
+
+			重定向，设置Location头完成重定向
+			快捷重定向，sendRedirect(String Location);方法
+			定时刷新，设置Refresh头（定时重定向）
+			禁用浏览器缓存：Cache-Control、pargma、expires
+
+		响应体：
+			通常是html，也可以是图片
+			response的两个流：
+				ServletOutputStream：用来向客户端发送字节数据（图片）  ServletOutputStream out = response.getOutputStream();
+				PrintWrite：用来向客户端发送字符数据！需要设置编码  PrintWriter writer = response.getWriter();
+				两个流不能同时使用，否则会报错。
+
+	request：
+		请求行
+		请求头
+		空行
+		请求体（GET没体）
+
+		请求协议中的数据都可以通过request对象来获取！
+		获取常用信息：
+			获取客户端IP  案例：封IP  request.getRemoteAddr()
+			请求方式  request.getMethod()  可能是POST，也可能是GET
+		获取请求头
+			String getHeader(String name);适用于单值头
+			int getHeader(String name);适用于单值int类型的请求头
+			long getDateHeader(String name);适用于单值毫秒类型的请求头
+			Enumeration<String> getHeader(String name);适用于多值请求头
+			案列：
+				通过User-Agent识别用户浏览器类型
+				防盗链：如果请求不是通过本站的超链接发出的，发送错误状态码404 Referer请求头，表示请求的来源
+		获取请求URL
+			http://localhost:8080/servlet/HServletRequest?username=&password=
+
+			String getScheme()：获取请求协议    http
+			String getServerName()：获取服务器名    localhost
+			String getServerPort()：获取服务器端口    8080
+			String getContextPath()：获取项目名    /servlet
+			String getServletPath()：获取Servlet路径    /HServletRequest
+			String getQueryString()：获取参数部分，即问号后面的部分    username=&password=
+			String getRequestURI()：获取请求URI，等于不包含项目名+Servlet路径    /servlet/HServletRequest
+			String getRequestURL()：获取请求URL，等于不包含参数的整个请求路径    http://localhost:8080/servlet/HServletRequest
+
+			获取完整的URL可以使用 String URL = request.getRequestURL()+"?"+request.getQueryString();
+
+		获取请求参数：请求参数由客户端发送给服务器的！ 有可能是在请求体中（POST请求），也可能是在URL之后（GET请求）
+			String getParameter(String name);：获取指定名称的请求参数值，适用于单值请求参数
+			String[] getParameterValues(String name);：获取指定名称的请求参数值，适用于多值请求参数
+			Enumeration<String> getParameterNames();：获取所有请求参数名称
+			Map<String,String[]> getParameterMap();：获取所有请求参数，期中可以为参数名，value为参数值
+			案例：
+				超链接参数
+				表单数据
+
+		请求转发和请求包含
+			RequestDispatcher rd = request.getRequestDispatcher("/MyServlet");  使用request获取RequestDispatcher对象，方法的参数是被转发或包含的Servlet的路径
+			请求转发：rd.forward(request,response);
+			请求包含：rd.include(request,response);
+
+			有时一个请求需要多个Servlet协作才能完成，所以需要在一个Servlet跳转到另一个Servlet！
+				一个请求跨多个Servlet，需要使用转发和包含
+				请求转发：由下一个Servlet完成响应体！当前Servlet可以设置响应头！（留头不留体）
+				请求包含：由多个Servlet共同完成响应体（留头也留体）
+				无论是请求转发还是请求包含，都在一个请求范围内使用同一个request和response！
+
+		request域：
+			Servlet中三大域对象：request，session，application他们均有如下三个方法
+				void setAttribute(String name,Object value);
+				Object getAttribute(String name);
+				void removeAtttribute(String name);
+
+				同一请求范围内使用request.setAttribute(),request.getAttribute()来传值！
+				前一个Servlet调用setAttribute()保存值，后一个Servlet调用getAttribute()得到值
+
+		请求转发和重定向的区别：
+			请求转发是一个请求一个响应，而重定向是两次请求两次响应
+			请求转发地址栏不变化，而重定向会显示后一个请求的地址
+			请求转发只能转发到本项目的其他Servlet，而重定向不仅能重定向到本项目的其他Servlet，还能重定向到其他项目
+			请求转发是服务器端行为，秩序给出转发的Servlet路径，而重定向需要给出requestURI，即包含项目名
+			请求转发的效率高于重定向，因为是一个请求
+				需要地址栏发生变化，必须使用重定向
+				需要在下一个Servlet中获取request域中的数据，必须使用转发
+
+
+
+
+
